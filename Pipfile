@@ -1,0 +1,12 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[requires]
+python_version = "3"
+
+[packages]
+cdktf-cdktf-provider-google-beta = "==0.1.42"
+cdktf-cdktf-provider-local = "*"
+cdktf = "*"
