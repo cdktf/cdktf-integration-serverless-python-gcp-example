@@ -9,12 +9,12 @@ class CloudFunction(Resource):
 
     https_trigger_url: str
    
-    def __init__(self, scope: Construct, id: str, environment: str, project: str, vpc_id: str, db_host: str, db_name: str, db_user: dict[str, str]):
+    def __init__(self, scope: Construct, id: str, environment: str, user: str, project: str, vpc_id: str, db_host: str, db_name: str, db_user: dict[str, str]):
         super().__init__(scope, id)
 
         cloud_functions_storage = GoogleStorageBucket(self,
-            name = "cloud-functions-{}-89264".format(environment),
-            id_ = "cloud-functions-{}-89264".format(environment),
+            name = "cloud-functions-{}-{}".format(environment, user),
+            id_ = "cloud-functions-{}-{}".format(environment, user),
             project = project,
             force_destroy = True,
             location = "us-east1",
@@ -33,15 +33,15 @@ class CloudFunction(Resource):
         shutil.make_archive("func_archive", "zip", os.path.join(os.getcwd(),"posts/cloudfunctions/api"))
 
         func_archive = GoogleStorageBucketObject(self, 
-            id_ = "functions-archive-{}".format(environment),
-            name = "functions-archive-{}".format(environment),
+            id_ = "functions-archive-{}-{}".format(environment, user),
+            name = "functions-archive-{}-{}".format(environment, user),
             bucket = cloud_functions_storage.name,
             source = os.path.join(os.getcwd(), "./func_archive.zip")
         )
 
         api = GoogleCloudfunctionsFunction(self,
-            id_ = "cloud-function-api-{}".format(environment),
-            name = "cloud-function-api-{}".format(environment),
+            id_ = "cloud-function-api-{}-{}".format(environment, user),
+            name = "cloud-function-api-{}-{}".format(environment, user),
             project = project,
             region = "us-east1",
             runtime = "nodejs14",
@@ -60,7 +60,7 @@ class CloudFunction(Resource):
         )
 
         GoogleCloudfunctionsFunctionIamMember(self,
-            id_ = "cloud-function-iam-{}".format(environment),
+            id_ = "cloud-function-iam-{}-{}".format(environment, user),
             cloud_function = api.name,
             project = project,
             region = "us-east1",

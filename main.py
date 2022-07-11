@@ -2,14 +2,14 @@
 import os
 from cdktf_cdktf_provider_local import LocalProvider
 from constructs import Construct
-from cdktf import App, TerraformStack
+from cdktf import App, NamedRemoteWorkspace, RemoteBackend, TerraformStack
 from posts.posts import Posts
 from frontend.index import Frontend
-from cdktf_cdktf_provider_google_beta import GoogleBetaProvider
+from cdktf_cdktf_provider_google_beta import GoogleBetaProvider, GoogleComputeProjectDefaultNetworkTier
 
 
 class FrontendStack(TerraformStack):
-    def __init__(self, scope: Construct, name: str, environment: str, project: str, http_trigger_url: str):
+    def __init__(self, scope: Construct, name: str, environment: str, user: str, project: str, http_trigger_url: str):
         super().__init__(scope, name)
 
         GoogleBetaProvider(self,
@@ -17,11 +17,17 @@ class FrontendStack(TerraformStack):
             region = "us-east1",
             project = project
         )
+        GoogleComputeProjectDefaultNetworkTier(self, 
+            project = project,
+            id_ = "networktier",
+            network_tier = "PREMIUM"
+        )
         LocalProvider(self, "local")
         Frontend(self,
             id = "frontend",
             project = project,
             environment = environment,
+            user = user,
             https_trigger_url = http_trigger_url
         )
     
@@ -30,7 +36,7 @@ class PostsStack(TerraformStack):
 
     http_trigger_url: str
 
-    def __init__(self, scope: Construct, name: str, environment: str, project: str):
+    def __init__(self, scope: Construct, name: str, environment: str, user: str, project: str):
         super().__init__(scope, name)
 
         GoogleBetaProvider(self,
@@ -40,7 +46,8 @@ class PostsStack(TerraformStack):
         )
         posts = Posts(self, 
             id = "posts", 
-            environment = environment, 
+            environment = environment,
+            user = user, 
             project = project
         )
 
@@ -50,11 +57,18 @@ class PostsStack(TerraformStack):
 app = App()
 
 USE_REMOTE_BACKEND = os.getenv("USE_REMOTE_BACKEND") is not None
+CDKTF_USER = os.getenv("CDKTF_USER") if os.getenv("CDKTF_USER") is not None else "default"
+
+if os.getenv("PROJECT_ID") is not None:
+    PROJECT_ID = os.getenv("PROJECT_ID")
+else:
+    raise Exception("PROJECT_ID env variable must be set")
 
 # Dev 
 postsDev = PostsStack(app, "posts-dev", 
-    environment="development", 
-    project = "python-gcp-72926"
+    environment="development",
+    user=CDKTF_USER, 
+    project = PROJECT_ID
 )
 if(USE_REMOTE_BACKEND):
         RemoteBackend(postsDev,
@@ -64,8 +78,9 @@ if(USE_REMOTE_BACKEND):
         )
 
 frontendDev = FrontendStack(app, "frontend-dev", 
-    environment="development", 
-    project="python-gcp-72926", 
+    environment="development",
+    user=CDKTF_USER, 
+    project=PROJECT_ID, 
     http_trigger_url=postsDev.http_trigger_url
 )
 if(USE_REMOTE_BACKEND):
@@ -77,8 +92,9 @@ if(USE_REMOTE_BACKEND):
 
 # Prod
 postsProd = PostsStack(app, "posts-prod", 
-    environment="production", 
-    project = "python-gcp-72926"
+    environment="production",
+    user=CDKTF_USER, 
+    project = PROJECT_ID
 )
 if(USE_REMOTE_BACKEND):
         RemoteBackend(postsProd,
@@ -88,8 +104,9 @@ if(USE_REMOTE_BACKEND):
         )
 
 frontendProd = FrontendStack(app, "frontend-prod", 
-    environment="production", 
-    project="python-gcp-72926", 
+    environment="production",
+    user=CDKTF_USER, 
+    project=PROJECT_ID, 
     http_trigger_url=postsProd.http_trigger_url
 )
 if(USE_REMOTE_BACKEND):

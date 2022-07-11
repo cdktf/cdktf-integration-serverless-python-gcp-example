@@ -6,3 +6,4 @@ cdktf.out
 cdktf.log
 *terraform.*.tfstate*
 func_archive.zip
+.DS_Store

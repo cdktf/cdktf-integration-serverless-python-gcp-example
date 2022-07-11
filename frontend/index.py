@@ -10,12 +10,12 @@ from cdktf_cdktf_provider_google_beta import GoogleComputeUrlMap, GoogleComputeT
 
 class Frontend(Resource):
 
-    def __init__(self, scope: Construct, id: str, project: str, environment: str, https_trigger_url: str):
+    def __init__(self, scope: Construct, id: str, project: str, environment: str, user: str, https_trigger_url: str):
         super().__init__(scope, id)
 
         bucket = GoogleStorageBucket(self, 
-            id_ = "cdktfpython-static-site-128u0",
-            name = "cdktfpython-static-site-128u0",
+            id_ = "cdktfpython-static-site-{}-{}".format(environment, user),
+            name = "cdktfpython-static-site-{}-{}".format(environment, user),
             project = project,
             location = "us-east1",
             storage_class = "STANDARD",
@@ -28,7 +28,7 @@ class Frontend(Resource):
 
         )
         GoogleStorageDefaultObjectAccessControl(self,
-            id_ = "bucket-access-control-{}".format(environment),
+            id_ = "bucket-access-control-{}-{}".format(environment, user),
             bucket = bucket.name,
             role = "READER",
             entity = "allUsers"
@@ -36,29 +36,25 @@ class Frontend(Resource):
 
         #NETWORKING
         external_ip = GoogleComputeGlobalAddress(self,
-            name = "external-react-app-ip-{}".format(environment),
-            id_ = "external-react-app-ip-{}".format(environment),
+            name = "external-react-app-ip-{}-{}".format(environment, user),
+            id_ = "external-react-app-ip-{}-{}".format(environment, user),
             project = project,
             address_type = "EXTERNAL",
             ip_version = "IPV4",
             description  = "IP address for React app"
         )
-        GoogleComputeProjectDefaultNetworkTier(self, 
-            project = project,
-            id_ = "networktier",
-            network_tier = "PREMIUM"
-        )
+        
         static_site = GoogleComputeBackendBucket(self,
-            name = "static-site-backend-{}".format(environment),
-            id_ = "static-site-backend-{}".format(environment),
+            name = "static-site-backend-{}-{}".format(environment, user),
+            id_ = "static-site-backend-{}-{}".format(environment, user),
             project = project, 
             description = "Contains files needed by the website",
             bucket_name = bucket.name,
             enable_cdn = True
         )
         ssl_cert = GoogleComputeManagedSslCertificate(self,
-            name = "ssl-certificate-{}".format(environment),
-            id_ = "ssl-certificate-{}".format(environment),
+            name = "ssl-certificate-{}-{}".format(environment, user),
+            id_ = "ssl-certificate-{}-{}".format(environment, user),
             project = project,
             managed = 
                 GoogleComputeManagedSslCertificateManaged(
@@ -66,21 +62,21 @@ class Frontend(Resource):
                 )
         )
         web_https = GoogleComputeUrlMap(self,
-            name = "web-url-map-https-{}".format(environment),
-            id_ = "web-url-map-https-{}".format(environment),
+            name = "web-url-map-https-{}-{}".format(environment, user),
+            id_ = "web-url-map-https-{}-{}".format(environment, user),
             project = project,
             default_service = static_site.self_link
         )
         https_proxy = GoogleComputeTargetHttpsProxy(self,
-            name = "web-target-proxy-https-{}".format(environment),
-            id_ = "web-target-proxy-https-{}".format(environment),
+            name = "web-target-proxy-https-{}-{}".format(environment, user),
+            id_ = "web-target-proxy-https-{}-{}".format(environment, user),
             project = project,
             url_map = web_https.id,
             ssl_certificates = [ssl_cert.self_link]
         )
         GoogleComputeGlobalForwardingRule(self,
-            name = "web-forwarding-rule-https-{}".format(environment),
-            id_ = "web-forwarding-rule-https-{}".format(environment),
+            name = "web-forwarding-rule-https-{}-{}".format(environment, user),
+            id_ = "web-forwarding-rule-https-{}-{}".format(environment, user),
             project = project,
             load_balancing_scheme = "EXTERNAL",
             ip_address = external_ip.address,
@@ -89,8 +85,8 @@ class Frontend(Resource):
             target = https_proxy.self_link
         )
         web_http = GoogleComputeUrlMap(self,
-            name = "web-url-map-http-{}".format(environment),
-            id_ = "web-url-map-http-{}".format(environment),
+            name = "web-url-map-http-{}-{}".format(environment, user),
+            id_ = "web-url-map-http-{}-{}".format(environment, user),
             project = project,
             description ="Web HTTP load balancer",
             default_url_redirect = GoogleComputeUrlMapDefaultUrlRedirect(
@@ -99,25 +95,21 @@ class Frontend(Resource):
             )
         )
         http_proxy = GoogleComputeTargetHttpProxy(self,
-            name = "web-target-proxy-http-{}".format(environment),
-            id_ = "web-target-proxy-http-{}".format(environment),
+            name = "web-target-proxy-http-{}-{}".format(environment, user),
+            id_ = "web-target-proxy-http-{}-{}".format(environment, user),
             project = project,
             description = "HTTP target proxy",
             url_map = web_http.id,
         )
         GoogleComputeGlobalForwardingRule(self,
-            name = "web-forwarding-rule-http-{}".format(environment),
-            id_ = "web-forwarding-rule-http-{}".format(environment),
+            name = "web-forwarding-rule-http-{}-{}".format(environment, user),
+            id_ = "web-forwarding-rule-http-{}-{}".format(environment, user),
             project = project,
             load_balancing_scheme = "EXTERNAL",
             ip_address = external_ip.address,
             ip_protocol = "TCP",
             target = http_proxy.id,
             port_range = "80"
-        )
-
-        TerraformOutput(self, "load-balancer-ip",
-            value = external_ip.address
         )
 
         File(self, "env",

@@ -9,19 +9,19 @@ class Posts(Resource):
 
     https_trigger_url: str
 
-    def __init__(self, scope: Construct, id: str, environment: str, project: str):
+    def __init__(self, scope: Construct, id: str, environment: str, user: str, project: str):
         super().__init__(scope, id)
 
         #NETWORK
         vpc = GoogleComputeNetwork(self,
-            name = "vpc-{}".format(environment),
-            id_ = "vpc-{}".format(environment),
+            name = "vpc-{}".format(environment, user),
+            id_ = "vpc-{}".format(environment, user),
             project = project,
             auto_create_subnetworks = False
         )
         private_ip = GoogleComputeGlobalAddress(self,
-            name = "internal-ip-address-{}".format(environment),
-            id_ = "internal-ip-address-{}".format(environment),
+            name = "internal-ip-address-{}-{}".format(environment, user),
+            id_ = "internal-ip-address-{}-{}".format(environment, user),
             project = project,
             purpose = "VPC_PEERING",
             address_type  = "INTERNAL",
@@ -30,20 +30,22 @@ class Posts(Resource):
         )
         private_vpc_connection = GoogleServiceNetworkingConnection(self,
             network = vpc.id,
-            id_ = "vpc-connection-{}".format(environment),
+            id_ = "vpc-connection-{}-{}".format(environment, user),
             service = "servicenetworking.googleapis.com",
             reserved_peering_ranges = [private_ip.name]
         )
 
         storage = Storage(self, "cloud-sql", 
-            environment = environment, 
+            environment = environment,
+            user = user, 
             project = project, 
             private_vpc_connection = private_vpc_connection, 
             vpc_id = vpc.id
         )
 
         cloud_function = CloudFunction(self, "cloud-function", 
-            environment=environment, 
+            environment=environment,
+            user = user, 
             project=project, 
             vpc_id = vpc.id, 
             db_host = storage.db_host, 

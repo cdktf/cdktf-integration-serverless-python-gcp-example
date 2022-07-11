@@ -1,7 +1,7 @@
 from constructs import Construct
 from cdktf import Resource
-from cdktf_cdktf_provider_google_beta import GoogleComputeNetwork, GoogleSecretManagerSecretReplication, GoogleServiceNetworkingConnection, GoogleSqlDatabase, 
-from cdktf_cdktf_provider_google_beta import GoogleSqlUser, GoogleSqlDatabaseInstance, GoogleSqlDatabaseInstanceSettings, GoogleSqlDatabaseInstanceSettingsBackupConfiguration, GoogleSqlDatabaseInstanceSettingsIpConfiguration
+from cdktf_cdktf_provider_google_beta import GoogleServiceNetworkingConnection, GoogleSqlDatabase
+from cdktf_cdktf_provider_google_beta import GoogleSqlUser, GoogleSqlDatabaseInstance, GoogleSqlDatabaseInstanceSettings, GoogleSqlDatabaseInstanceSettingsIpConfiguration
 
 class Storage(Resource):
 
@@ -9,12 +9,12 @@ class Storage(Resource):
     db_name: str
     db_user: dict[str, str]
 
-    def __init__(self, scope: Construct, id: str, environment: str, project: str, private_vpc_connection: GoogleServiceNetworkingConnection, vpc_id: str):
+    def __init__(self, scope: Construct, id: str, environment: str, user: str, project: str, private_vpc_connection: GoogleServiceNetworkingConnection, vpc_id: str):
         super().__init__(scope,id)
 
         db_instance = GoogleSqlDatabaseInstance(self,
-            id_ = "db-react-app-instance-{}".format(environment),
-            name = "db-react-app-instance-{}".format(environment),
+            id_ = "db-react-application-instance-{}-{}".format(environment, user),
+            name = "db-react-application-instance-{}-{}".format(environment, user),
             project = project,
             region = "us-east4",
             depends_on = [private_vpc_connection],
@@ -34,15 +34,15 @@ class Storage(Resource):
         )
 
         db = GoogleSqlDatabase(self,
-            id_ = "db-react-app-{}-2739".format(environment),
-            name = "db-react-app-{}-2739".format(environment),
+            id_ = "db-react-application-{}-{}".format(environment, user),
+            name = "db-react-application-{}-{}".format(environment, user),
             project = project,
             instance = db_instance.id
         )
         
         db_user = GoogleSqlUser(self,
-            id_ = "react-app-db-user-{}-28u402".format(environment),
-            name = "react-app-db-user-{}-28u402".format(environment),
+            id_ = "react-application-db-user-{}-{}".format(environment, user),
+            name = "react-application-db-user-{}-{}".format(environment, user),
             project = project,
             instance= db_instance.id,
             password = "awsufjrkdn"
