@@ -1,6 +1,7 @@
+import os
 from constructs import Construct
 from cdktf import Resource
-from cdktf_cdktf_provider_google_beta import GoogleServiceNetworkingConnection, GoogleSqlDatabase
+from cdktf_cdktf_provider_google_beta import GoogleServiceNetworkingConnection, GoogleSqlDatabase, DataGoogleSecretManagerSecretVersion
 from cdktf_cdktf_provider_google_beta import GoogleSqlUser, GoogleSqlDatabaseInstance, GoogleSqlDatabaseInstanceSettings, GoogleSqlDatabaseInstanceSettingsIpConfiguration
 
 class Storage(Resource):
@@ -39,13 +40,20 @@ class Storage(Resource):
             project = project,
             instance = db_instance.id
         )
+
+        db_pass = DataGoogleSecretManagerSecretVersion(self, 
+            id_ = "db_pass",
+            project = project,
+            secret = os.getenv("DB_PASS"),
+            
+        )
         
         db_user = GoogleSqlUser(self,
             id_ = "react-application-db-user-{}-{}".format(environment, user),
             name = "react-application-db-user-{}-{}".format(environment, user),
             project = project,
             instance= db_instance.id,
-            password = "awsufjrkdn"
+            password = db_pass.secret_data
 
         )
     
@@ -53,7 +61,7 @@ class Storage(Resource):
         self.db_name = db.name
         self.db_user = {
             "name": db_user.name,
-            "password": db_user.password
+            "password": db_pass.secret_data
         }
 
 

@@ -191,12 +191,19 @@ class Storage(Resource):
             instance = db_instance.id
         )
         
+        db_pass = DataGoogleSecretManagerSecretVersion(self, 
+            id_ = "db_pass",
+            project = project,
+            secret = os.getenv("DB_PASS"),
+            
+        )
+        
         db_user = GoogleSqlUser(self,
             id_ = "react-application-db-user-{}-{}".format(environment, user),
             name = "react-application-db-user-{}-{}".format(environment, user),
             project = project,
             instance= db_instance.id,
-            password = "awsufjrkdn"
+            password = db_pass.secret_data
 
         )
     
@@ -204,7 +211,7 @@ class Storage(Resource):
         self.db_name = db.name
         self.db_user = {
             "name": db_user.name,
-            "password": db_user.password
+            "password": db_pass.secret_data
         }
 ```
 
@@ -322,55 +329,6 @@ self.https_trigger_url = api.https_trigger_url
 
 
 ## Frontend
-```python 
-class Frontend(Resource):
-
-    def __init__(self, scope: Construct, id: str, project: str, environment: str, user: str, https_trigger_url: str):
-        super().__init__(scope, id)
-
-        bucket = GoogleStorageBucket(self, 
-            #.....
-        )
-        GoogleStorageDefaultObjectAccessControl(self,
-            #.....
-        )
-
-        #NETWORKING
-        external_ip = GoogleComputeGlobalAddress(self,
-            #....."
-        )
-        GoogleComputeProjectDefaultNetworkTier(self, 
-            #.....
-        )
-        static_site = GoogleComputeBackendBucket(self,
-            #.....
-        )
-        ssl_cert = GoogleComputeManagedSslCertificate(self,
-            #.....
-        )
-        web_https = GoogleComputeUrlMap(self,
-            #.....
-        )
-        https_proxy = GoogleComputeTargetHttpsProxy(self,
-            #.....
-        )
-        GoogleComputeGlobalForwardingRule(self,
-            #.....
-        )
-        web_http = GoogleComputeUrlMap(self,
-            #.....
-        )
-        http_proxy = GoogleComputeTargetHttpProxy(self,
-            #.....
-        )
-        GoogleComputeGlobalForwardingRule(self,
-            #.....
-        )
-
-        File(self, "env",
-            #.....
-        )
-```
 
 We will host the contents of our website statically in a Google Storage Bucket– default permissions for accessing objects in this bucket are then given
 
