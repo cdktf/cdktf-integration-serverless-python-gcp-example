@@ -7,14 +7,13 @@ This repository contains an end to end serverless web app hosted on GCP and depl
 Frontend: React, Create React App, statically hosted via Google Cloud Storage
 Backend API: GCP Cloud Function + Cloud SQL
 
-
 ## Application
 
-### Stacks 
+### Stacks
 
 We will have two primary Stacks– PostsStack and FrontendStack
 
-The Post and Frontend class encapsulate the finer details of infrastructure provisioned for each respective Stack. The first parameter denotes the scope of the infrastructure being provision– we use `self` to tie the infrastructure contained in Post/Frontend to the Stack in which it is contained, the same is true with `GoogleBetaProvider`. 
+The Post and Frontend class encapsulate the finer details of infrastructure provisioned for each respective Stack. The first parameter denotes the scope of the infrastructure being provision– we use `self` to tie the infrastructure contained in Post/Frontend to the Stack in which it is contained, the same is true with `GoogleBetaProvider`.
 
 ```python
 class PostsStack(TerraformStack):
@@ -29,15 +28,15 @@ class PostsStack(TerraformStack):
             region = "us-east1",
             project = project
         )
-        posts = Posts(self, 
-            id = "posts", 
+        posts = Posts(self,
+            id = "posts",
             environment = environment,
-            user = user, 
+            user = user,
             project = project
         )
 
         self.http_trigger_url = posts.https_trigger_url
-``` 
+```
 
 ```python
 class FrontendStack(TerraformStack):
@@ -65,35 +64,36 @@ For example…
 
 ```python
 # In main.py
- 
-postsDev = PostsStack(app, "posts-dev", 
+
+postsDev = PostsStack(app, "posts-dev",
     environment="development",
-    user=CDKTF_USER, 
+    user=CDKTF_USER,
     project = "python-gcp-72926"
 )
-frontendDev = FrontendStack(app, "frontend-dev", 
+frontendDev = FrontendStack(app, "frontend-dev",
     environment="development",
-    user=CDKTF_USER, 
-    project="python-gcp-72926", 
+    user=CDKTF_USER,
+    project="python-gcp-72926",
     http_trigger_url=postsDev.http_trigger_url
 )
-postsProd = PostsStack(app, "posts-prod", 
+postsProd = PostsStack(app, "posts-prod",
     environment="production",
-    user=CDKTF_USER, 
+    user=CDKTF_USER,
     project = "python-gcp-72926"
 )
-frontendProd = FrontendStack(app, "frontend-prod", 
+frontendProd = FrontendStack(app, "frontend-prod",
     environment="production",
-    user=CDKTF_USER, 
-    project="python-gcp-72926", 
+    user=CDKTF_USER,
+    project="python-gcp-72926",
     http_trigger_url=postsProd.http_trigger_url
 )
 ```
-Here we created separate instances of the infrastructure for the frontend and backend with different naming of the resources in each application environment (by ways of the environment param), with the ease of adding additional as needed. 
+
+Here we created separate instances of the infrastructure for the frontend and backend with different naming of the resources in each application environment (by ways of the environment param), with the ease of adding additional as needed.
 
 ## Posts
 
-The Posts class melds two elements together– the Cloud SQL DB and our Cloud Function that takes our new Cloud SQL DB for setting up the Cloud Function's environment. 
+The Posts class melds two elements together– the Cloud SQL DB and our Cloud Function that takes our new Cloud SQL DB for setting up the Cloud Function's environment.
 
 ```python
 class Posts(Resource):
@@ -126,21 +126,21 @@ class Posts(Resource):
             reserved_peering_ranges = [private_ip.name]
         )
 
-        storage = Storage(self, "cloud-sql", 
+        storage = Storage(self, "cloud-sql",
             environment = environment,
-            user = user, 
-            project = project, 
-            private_vpc_connection = private_vpc_connection, 
+            user = user,
+            project = project,
+            private_vpc_connection = private_vpc_connection,
             vpc_id = vpc.id
         )
 
-        cloud_function = CloudFunction(self, "cloud-function", 
+        cloud_function = CloudFunction(self, "cloud-function",
             environment=environment,
-            user = user, 
-            project=project, 
-            vpc_id = vpc.id, 
-            db_host = storage.db_host, 
-            db_name = storage.db_name, 
+            user = user,
+            project=project,
+            vpc_id = vpc.id,
+            db_host = storage.db_host,
+            db_name = storage.db_name,
             db_user = storage.db_user
         )
 
@@ -190,14 +190,14 @@ class Storage(Resource):
             project = project,
             instance = db_instance.id
         )
-        
-        db_pass = DataGoogleSecretManagerSecretVersion(self, 
+
+        db_pass = DataGoogleSecretManagerSecretVersion(self,
             id_ = "db_pass",
             project = project,
             secret = os.getenv("DB_PASS"),
-            
+
         )
-        
+
         db_user = GoogleSqlUser(self,
             id_ = "react-application-db-user-{}-{}".format(environment, user),
             name = "react-application-db-user-{}-{}".format(environment, user),
@@ -206,7 +206,7 @@ class Storage(Resource):
             password = db_pass.secret_data
 
         )
-    
+
         self.db_host = db_instance.private_ip_address+":5432"
         self.db_name = db.name
         self.db_user = {
@@ -232,10 +232,10 @@ class CloudFunction(Resource):
         vpc_connector = GoogleVpcAccessConnector(self,
             #...
         )
-        
+
         shutil.make_archive("func_archive", "zip", os.path.join(os.getcwd(),"posts/cloudfunctions/api"))
 
-        func_archive = GoogleStorageBucketObject(self, 
+        func_archive = GoogleStorageBucketObject(self,
             #...
         )
 
@@ -250,7 +250,7 @@ class CloudFunction(Resource):
         self.https_trigger_url = api.https_trigger_url
 ```
 
-In our CloudFunction Class we first provision a Cloud Storage bucket to house the contents of the Cloud Function to be deployed. 
+In our CloudFunction Class we first provision a Cloud Storage bucket to house the contents of the Cloud Function to be deployed.
 
 ```python
 cloud_functions_storage = GoogleStorageBucket(self,
@@ -267,7 +267,7 @@ We then zip the folder that contains our Cloud Function's implementation and cre
 
 ```python
 shutil.make_archive("func_archive", "zip", os.path.join(os.getcwd(),"posts/cloudfunctions/api"))
-func_archive = GoogleStorageBucketObject(self, 
+func_archive = GoogleStorageBucketObject(self,
     id_ = "functions-archive-{}-{}".format(environment, user),
     name = "functions-archive-{}-{}".format(environment, user),
     bucket = cloud_functions_storage.name,
@@ -321,26 +321,25 @@ GoogleCloudfunctionsFunctionIamMember(self,
 )
 ```
 
-The trigger url for our Cloud Function is made accessible so we later hand it off to the Frontend of our react app 
+The trigger url for our Cloud Function is made accessible so we later hand it off to the Frontend of our react app
 
 ```python
 self.https_trigger_url = api.https_trigger_url
 ```
-
 
 ## Frontend
 
 We will host the contents of our website statically in a Google Storage Bucket– default permissions for accessing objects in this bucket are then given
 
 ```python
-bucket = GoogleStorageBucket(self, 
+bucket = GoogleStorageBucket(self,
     id_ = "cdktfpython-static-site-{}-{}".format(environment, user),
     name = "cdktfpython-static-site-{}-{}".format(environment, user),
     project = project,
     location = "us-east1",
     storage_class = "STANDARD",
     force_destroy = True,
-    
+
     website = GoogleStorageBucketWebsite(
         main_page_suffix = "index.html",
         not_found_page   = "index.html"
@@ -355,7 +354,7 @@ GoogleStorageDefaultObjectAccessControl(self,
 )
 ```
 
-Here we reserve a static external IP address– we will later attach it our URL Maps. 
+Here we reserve a static external IP address– we will later attach it our URL Maps.
 
 ```python
 external_ip = GoogleComputeGlobalAddress(self,
@@ -374,7 +373,7 @@ A GoogleComputeBackendBucket is used to access the static site files with HTTPS 
 static_site = GoogleComputeBackendBucket(self,
     name = "static-site-backend-{}-{}".format(environment, user),
     id_ = "static-site-backend-{}-{}".format(environment, user),
-    project = project, 
+    project = project,
     description = "Contains files needed by the website",
     bucket_name = bucket.name,
     enable_cdn = True
@@ -388,9 +387,9 @@ ssl_cert = GoogleComputeManagedSslCertificate(self,
     name = "ssl-certificate-{}-{}".format(environment, user),
     id_ = "ssl-certificate-{}-{}".format(environment, user),
     project = project,
-    managed = 
+    managed =
         GoogleComputeManagedSslCertificateManaged(
-            domains = ["cdktfpython.com", "www.cdktfpython.com"] 
+            domains = ["cdktfpython.com", "www.cdktfpython.com"]
         )
 )
 web_https = GoogleComputeUrlMap(self,
@@ -412,7 +411,7 @@ GoogleComputeGlobalForwardingRule(self,
     project = project,
     load_balancing_scheme = "EXTERNAL",
     ip_address = external_ip.address,
-    ip_protocol = "TCP", 
+    ip_protocol = "TCP",
     port_range = "443",
     target = https_proxy.self_link
 )
@@ -453,3 +452,7 @@ File(self, "env",
     content = "BUCKET_NAME={bucket}\nREACT_APP_API_ENDPOINT={endPoint}".format(bucket = bucket.name, endPoint = https_trigger_url)
 )
 ```
+
+## License
+
+[Mozilla Public License v2.0](https://github.com/hashicorp/cdktf-integration-serverless-python-gcp-example/blob/main/LICENSE)
