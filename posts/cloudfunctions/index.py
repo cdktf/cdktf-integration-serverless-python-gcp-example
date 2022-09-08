@@ -2,8 +2,11 @@ import shutil
 import os
 from constructs import Construct
 from cdktf import Resource
-from cdktf_cdktf_provider_google_beta import GoogleStorageBucket, GoogleVpcAccessConnector
-from cdktf_cdktf_provider_google_beta import GoogleCloudfunctionsFunction, GoogleCloudfunctionsFunctionIamMember, GoogleStorageBucketObject
+from imports.google_beta.google_storage_bucket import GoogleStorageBucket
+from imports.google_beta.google_vpc_access_connector import GoogleVpcAccessConnector
+from imports.google_beta.google_cloudfunctions_function import GoogleCloudfunctionsFunction
+from imports.google_beta.google_cloudfunctions_function_iam_member import GoogleCloudfunctionsFunctionIamMember
+from imports.google_beta.google_storage_bucket_object import GoogleStorageBucketObject
 
 class CloudFunction(Resource):
 

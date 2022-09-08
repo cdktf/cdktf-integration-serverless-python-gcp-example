@@ -2,16 +2,28 @@ import os
 import os.path as Path
 from constructs import Construct
 from cdktf import Resource, TerraformOutput
-from cdktf_cdktf_provider_local import File
-from cdktf_cdktf_provider_google_beta import GoogleStorageBucket, GoogleStorageBucketWebsite, GoogleStorageDefaultObjectAccessControl, GoogleComputeBackendBucket
-from cdktf_cdktf_provider_google_beta import GoogleComputeProjectDefaultNetworkTier, GoogleComputeManagedSslCertificate, GoogleComputeManagedSslCertificateManaged, GoogleComputeTargetHttpsProxy
-from cdktf_cdktf_provider_google_beta import GoogleComputeUrlMap, GoogleComputeTargetHttpProxy, GoogleComputeGlobalForwardingRule, GoogleComputeUrlMapDefaultUrlRedirect, GoogleComputeGlobalAddress
+from imports.local.file import File
+
+from imports.google_beta.google_storage_bucket import GoogleStorageBucket, GoogleStorageBucketWebsite 
+from imports.google_beta.google_storage_default_object_access_control import GoogleStorageDefaultObjectAccessControl
+from imports.google_beta.google_compute_backend_bucket import GoogleComputeBackendBucket
+
+from imports.google_beta.google_compute_project_default_network_tier import GoogleComputeProjectDefaultNetworkTier
+from imports.google_beta.google_compute_managed_ssl_certificate import GoogleComputeManagedSslCertificate, GoogleComputeManagedSslCertificateManaged
+from imports.google_beta.google_compute_target_https_proxy import GoogleComputeTargetHttpsProxy
+from imports.google_beta.google_compute_target_http_proxy import GoogleComputeTargetHttpProxy
+
+from imports.google_beta.google_compute_url_map import GoogleComputeUrlMap, GoogleComputeUrlMapDefaultUrlRedirect
+from imports.google_beta.google_compute_global_forwarding_rule import GoogleComputeGlobalForwardingRule
+from imports.google_beta.google_compute_global_address import GoogleComputeGlobalAddress
+
 
 
 class Frontend(Resource):
 
     def __init__(self, scope: Construct, id: str, project: str, environment: str, user: str, https_trigger_url: str):
         super().__init__(scope, id)
+
 
         bucket = GoogleStorageBucket(self, 
             id_ = "cdktfpython-static-site-{}-{}".format(environment, user),

@@ -1,8 +1,12 @@
 import os
 from constructs import Construct
 from cdktf import Resource
-from cdktf_cdktf_provider_google_beta import GoogleServiceNetworkingConnection, GoogleSqlDatabase, DataGoogleSecretManagerSecretVersion
-from cdktf_cdktf_provider_google_beta import GoogleSqlUser, GoogleSqlDatabaseInstance, GoogleSqlDatabaseInstanceSettings, GoogleSqlDatabaseInstanceSettingsIpConfiguration
+
+from imports.google_beta.google_service_networking_connection import GoogleServiceNetworkingConnection
+from imports.google_beta.google_sql_database import GoogleSqlDatabase
+from imports.google_beta.google_sql_user import GoogleSqlUser
+from imports.google_beta.data_google_secret_manager_secret_version import DataGoogleSecretManagerSecretVersion
+from imports.google_beta.google_sql_database_instance import GoogleSqlDatabaseInstance, GoogleSqlDatabaseInstanceSettings, GoogleSqlDatabaseInstanceSettingsIpConfiguration
 
 class Storage(Resource):
 

@@ -7,6 +7,4 @@ verify_ssl = true
 python_version = "3"
 
 [packages]
-cdktf-cdktf-provider-google-beta = "==0.1.42"
-cdktf-cdktf-provider-local = "*"
-cdktf = "*"
+cdktf = "0.13.0.dev37"
