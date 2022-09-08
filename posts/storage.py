@@ -1,6 +1,7 @@
 import os
 from constructs import Construct
 from cdktf import Resource
+from cdktf import TerraformVariable
 from cdktf_cdktf_provider_google_beta import GoogleServiceNetworkingConnection, GoogleSqlDatabase, DataGoogleSecretManagerSecretVersion
 from cdktf_cdktf_provider_google_beta import GoogleSqlUser, GoogleSqlDatabaseInstance, GoogleSqlDatabaseInstanceSettings, GoogleSqlDatabaseInstanceSettingsIpConfiguration
 
@@ -10,7 +11,7 @@ class Storage(Resource):
     db_name: str
     db_user: dict[str, str]
 
-    def __init__(self, scope: Construct, id: str, environment: str, user: str, project: str, private_vpc_connection: GoogleServiceNetworkingConnection, vpc_id: str):
+    def __init__(self, scope: Construct, id: str, environment: str, user: str, project: str, private_vpc_connection: GoogleServiceNetworkingConnection, vpc_id: str, db_pass: TerraformVariable):
         super().__init__(scope,id)
 
         db_instance = GoogleSqlDatabaseInstance(self,
@@ -40,20 +41,13 @@ class Storage(Resource):
             project = project,
             instance = db_instance.id
         )
-
-        db_pass = DataGoogleSecretManagerSecretVersion(self, 
-            id_ = "db_pass",
-            project = project,
-            secret = os.getenv("DB_PASS"),
-            
-        )
         
         db_user = GoogleSqlUser(self,
             id_ = "react-application-db-user-{}-{}".format(environment, user),
             name = "react-application-db-user-{}-{}".format(environment, user),
             project = project,
             instance= db_instance.id,
-            password = db_pass.secret_data
+            password = db_pass.value
 
         )
     
@@ -61,7 +55,7 @@ class Storage(Resource):
         self.db_name = db.name
         self.db_user = {
             "name": db_user.name,
-            "password": db_pass.secret_data
+            "password": db_pass.value
         }
 
 

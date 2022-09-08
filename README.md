@@ -2,6 +2,40 @@
 
 This repository contains an end to end serverless web app hosted on GCP and deployed with [CDK for Terraform](https://cdk.tf) in Python. In more application specific terms, we are deploying serverless infrastructure for a web app that has a list of posts and a modal to create a new post by specifying author and content. For more information regarding setup and the features of CDKTF [please refer to these docs](https://www.terraform.io/cdktf).
 
+## Local Usage
+
+### Prerequisites
+
+In order to run this example you must have CDKTF and it's prerequisites installed. For further explanation please see [this quick start demo](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf).
+
+Additionally a GCP account, the GCP CLI, and GCP project setup are needed.
+
+### Setting up GCP Project configured for CDKTF/Terraform
+
+1. run `gcloud init` to connect to your GCP account
+
+2. set the environment variable `PROJECT_ID` to the desired ID of the project to be deployed
+
+3. run `gcloud projects create $PROJECT_ID --set-as-default` to create a new project in GCP
+
+4. run `gcloud auth application-default login` to cache the project information locally in order for Terraform to discover and use.
+
+Lastly in your GCP console enable billing for the project and enable the following APIs and Services
+
+- Compute Engine API
+- Cloud Functions API
+- Secret Manager API
+- Serverless VPC Access API
+- Cloud Storage
+
+### To Deploy
+
+First run `pipenv install` in the root directory of the project to create a virtual environment with all the needed packages installed.  
+
+Then set the environment variable `TF_VAR_DB_PASS` to your desired password for the database to be created.
+
+Then in that virtual environment `cdktf deploy` can be runned with the stacks that you wish to deploy e.g `cdktf deploy posts-dev frontend-dev` for deploying the dev environement or `cdktf deploy posts-prod frontend-prod` for deploying the production environment.
+
 ## Techstack
 
 Frontend: React, Create React App, statically hosted via Google Cloud Storage

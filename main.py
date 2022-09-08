@@ -2,7 +2,7 @@
 import os
 from cdktf_cdktf_provider_local import LocalProvider
 from constructs import Construct
-from cdktf import App, NamedRemoteWorkspace, RemoteBackend, TerraformStack
+from cdktf import App, NamedRemoteWorkspace, RemoteBackend, TerraformStack, TerraformVariable
 from posts.posts import Posts
 from frontend.index import Frontend
 from cdktf_cdktf_provider_google_beta import GoogleBetaProvider, GoogleComputeProjectDefaultNetworkTier
@@ -44,11 +44,19 @@ class PostsStack(TerraformStack):
             region = "us-east1",
             project = project
         )
+
+        db_pass = TerraformVariable(self, "DB_PASS",
+            type = "string",
+            description = "DB password for the instance",
+            sensitive = True
+        )
+
         posts = Posts(self, 
             id = "posts", 
             environment = environment,
             user = user, 
-            project = project
+            project = project,
+            db_pass = db_pass
         )
 
         self.http_trigger_url = posts.https_trigger_url

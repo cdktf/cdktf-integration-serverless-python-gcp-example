@@ -1,4 +1,4 @@
-from cdktf import Resource
+from cdktf import Resource, TerraformVariable
 from constructs import Construct
 from cdktf_cdktf_provider_google_beta import GoogleComputeGlobalAddress, GoogleComputeNetwork, GoogleServiceNetworkingConnection
 from posts.cloudfunctions.index import CloudFunction
@@ -9,7 +9,7 @@ class Posts(Resource):
 
     https_trigger_url: str
 
-    def __init__(self, scope: Construct, id: str, environment: str, user: str, project: str):
+    def __init__(self, scope: Construct, id: str, environment: str, user: str, project: str, db_pass: TerraformVariable):
         super().__init__(scope, id)
 
         #NETWORK
@@ -40,7 +40,8 @@ class Posts(Resource):
             user = user, 
             project = project, 
             private_vpc_connection = private_vpc_connection, 
-            vpc_id = vpc.id
+            vpc_id = vpc.id,
+            db_pass = db_pass
         )
 
         cloud_function = CloudFunction(self, "cloud-function", 
