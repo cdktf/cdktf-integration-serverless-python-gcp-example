@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 import os
-from cdktf_cdktf_provider_local import LocalProvider
+from imports.local import LocalProvider
 from constructs import Construct
 from cdktf import App, NamedRemoteWorkspace, RemoteBackend, TerraformStack
 from posts.posts import Posts
 from frontend.index import Frontend
-from cdktf_cdktf_provider_google_beta import GoogleBetaProvider, GoogleComputeProjectDefaultNetworkTier
+from imports.google_beta import GoogleBetaProvider, GoogleComputeProjectDefaultNetworkTier
 
 
 class FrontendStack(TerraformStack):

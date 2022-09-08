@@ -1,6 +1,6 @@
 from cdktf import Resource
 from constructs import Construct
-from cdktf_cdktf_provider_google_beta import GoogleComputeGlobalAddress, GoogleComputeNetwork, GoogleServiceNetworkingConnection
+from imports.google_beta import GoogleComputeGlobalAddress, GoogleComputeNetwork, GoogleServiceNetworkingConnection
 from posts.cloudfunctions.index import CloudFunction
 from posts.storage import Storage
 
