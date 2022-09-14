@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "73568301a81c18d87fb509bc5418176406e424c94435ef713fa91ea65586f18d"
+            "sha256": "fb46cae3b075baaac1f71501810f060e16b4c24909e0ac5e215dee4985777e23"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -42,11 +42,19 @@
         },
         "constructs": {
             "hashes": [
-                "sha256:b91d633068da730020d5537d40d99fcd6e752eab043142f293fee600b0ceb60a",
-                "sha256:bc0367bf9e24e42ef45d4e5dd9f733ba4fd8182914402684fd49bafddec9577f"
+                "sha256:0255e98319e71cdd75e916bf00dc6abc4f3046a74cf3884b8e92db053b837708",
+                "sha256:7b32f3ecc0e587cb4e670503666d9d4f408e67b9de7bbe7386e9cb94e18618ae"
             ],
             "markers": "python_version ~= '3.7'",
-            "version": "==10.1.96"
+            "version": "==10.1.102"
+        },
+        "dschmidt-cdktf-provider-google-beta": {
+            "hashes": [
+                "sha256:466c9e2b65a675977c6865b83e0652e406c123e62dc2441930dbb0aeacd116fa",
+                "sha256:c5e02f1d10513d4306e7af3f93e7d9463f79c8be340bd7522333d7094750ad90"
+            ],
+            "index": "pypi",
+            "version": "==0.1.0"
         },
         "exceptiongroup": {
             "hashes": [

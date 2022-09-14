@@ -2,7 +2,7 @@
   "language": "python",
   "app": "PROJECT_ID=my-proj DB_PASS=foo pipenv run python main.py",
   "projectId": "36090ee2-c8e9-4c4c-ab99-44832ca99af5",
-  "terraformProviders": ["local@=2.2.3", "google-beta@=4.35.0"],
+  "terraformProviders": ["local@=2.2.3"],
   "terraformModules": [],
   "codeMakerOutput": "imports",
   "context": {
