@@ -1,4 +1,5 @@
 import os
+import string
 from constructs import Construct
 from cdktf import Resource
 from cdktf import TerraformVariable
@@ -11,7 +12,7 @@ class Storage(Resource):
     db_name: str
     db_user: dict[str, str]
 
-    def __init__(self, scope: Construct, id: str, environment: str, user: str, project: str, private_vpc_connection: GoogleServiceNetworkingConnection, vpc_id: str, db_pass: TerraformVariable):
+    def __init__(self, scope: Construct, id: str, environment: str, user: str, project: str, private_vpc_connection: GoogleServiceNetworkingConnection, vpc_id: str, db_pass: str):
         super().__init__(scope,id)
 
         db_instance = GoogleSqlDatabaseInstance(self,
@@ -47,7 +48,7 @@ class Storage(Resource):
             name = "react-application-db-user-{}-{}".format(environment, user),
             project = project,
             instance= db_instance.id,
-            password = db_pass.value
+            password = db_pass
 
         )
     
@@ -55,7 +56,7 @@ class Storage(Resource):
         self.db_name = db.name
         self.db_user = {
             "name": db_user.name,
-            "password": db_pass.value
+            "password": db_pass
         }
 
 

@@ -9,7 +9,7 @@ class Posts(Resource):
 
     https_trigger_url: str
 
-    def __init__(self, scope: Construct, id: str, environment: str, user: str, project: str, db_pass: TerraformVariable):
+    def __init__(self, scope: Construct, id: str, environment: str, user: str, project: str, db_pass: str):
         super().__init__(scope, id)
 
         #NETWORK
