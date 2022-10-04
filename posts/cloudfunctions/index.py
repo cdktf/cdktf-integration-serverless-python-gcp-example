@@ -1,11 +1,13 @@
 import shutil
 import os
 from constructs import Construct
-from cdktf import Resource
-from cdktf_cdktf_provider_google_beta import GoogleStorageBucket, GoogleVpcAccessConnector
-from cdktf_cdktf_provider_google_beta import GoogleCloudfunctionsFunction, GoogleCloudfunctionsFunctionIamMember, GoogleStorageBucketObject
+from cdktf_cdktf_provider_google_beta.google_storage_bucket import GoogleStorageBucket
+from cdktf_cdktf_provider_google_beta.google_storage_bucket_object import GoogleStorageBucketObject
+from cdktf_cdktf_provider_google_beta.google_vpc_access_connector import GoogleVpcAccessConnector
+from cdktf_cdktf_provider_google_beta.google_cloudfunctions_function import GoogleCloudfunctionsFunction
+from cdktf_cdktf_provider_google_beta.google_cloudfunctions_function_iam_member import GoogleCloudfunctionsFunctionIamMember
 
-class CloudFunction(Resource):
+class CloudFunction(Construct):
 
     https_trigger_url: str
    
