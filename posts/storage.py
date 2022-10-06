@@ -1,12 +1,10 @@
-import os
-import string
 from constructs import Construct
-from cdktf import Resource
-from cdktf import TerraformVariable
-from cdktf_cdktf_provider_google_beta import GoogleServiceNetworkingConnection, GoogleSqlDatabase, DataGoogleSecretManagerSecretVersion
-from cdktf_cdktf_provider_google_beta import GoogleSqlUser, GoogleSqlDatabaseInstance, GoogleSqlDatabaseInstanceSettings, GoogleSqlDatabaseInstanceSettingsIpConfiguration
+from cdktf_cdktf_provider_google_beta.google_service_networking_connection import GoogleServiceNetworkingConnection
+from cdktf_cdktf_provider_google_beta.google_sql_database import GoogleSqlDatabase
+from cdktf_cdktf_provider_google_beta.google_sql_user import GoogleSqlUser
+from cdktf_cdktf_provider_google_beta.google_sql_database_instance import GoogleSqlDatabaseInstance, GoogleSqlDatabaseInstanceSettings, GoogleSqlDatabaseInstanceSettingsIpConfiguration
 
-class Storage(Resource):
+class Storage(Construct):
 
     db_host: str
     db_name: str

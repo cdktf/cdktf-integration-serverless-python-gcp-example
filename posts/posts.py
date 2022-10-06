@@ -1,11 +1,12 @@
-from cdktf import Resource, TerraformVariable
 from constructs import Construct
-from cdktf_cdktf_provider_google_beta import GoogleComputeGlobalAddress, GoogleComputeNetwork, GoogleServiceNetworkingConnection
+from cdktf_cdktf_provider_google_beta.google_compute_global_address import GoogleComputeGlobalAddress
+from cdktf_cdktf_provider_google_beta.google_compute_network import GoogleComputeNetwork
+from cdktf_cdktf_provider_google_beta.google_service_networking_connection import GoogleServiceNetworkingConnection
 from posts.cloudfunctions.index import CloudFunction
 from posts.storage import Storage
 
 
-class Posts(Resource):
+class Posts(Construct):
 
     https_trigger_url: str
 
