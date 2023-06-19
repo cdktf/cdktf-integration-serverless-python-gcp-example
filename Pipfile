@@ -9,4 +9,4 @@ python_version = "3"
 [packages]
 cdktf-cdktf-provider-google-beta = "~=8.0.0"
 cdktf-cdktf-provider-local = "~=7.0.0"
-cdktf = "~=0.17.0"
+cdktf = "~=0.18.0"
