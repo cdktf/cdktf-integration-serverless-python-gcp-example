@@ -1,0 +1,10 @@
+pull_request_rules:
+  - name: Automatic merge of dependabot
+    conditions:
+      - author=dependabot[bot]
+      - check-success=synth
+      - check-success=test
+      - base=main
+    actions:
+      merge:
+        method: merge

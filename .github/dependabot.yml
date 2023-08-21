@@ -1,7 +1,7 @@
 version: 2
 updates:
 # Maintain dependencies for each example folder
-  - package-ecosystem: "pipenv" 
+  - package-ecosystem: "pip" 
     directory: "/"
     schedule:
         interval: "weekly"

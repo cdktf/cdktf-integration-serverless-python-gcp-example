@@ -14,7 +14,7 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  synth:
+  test:
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
