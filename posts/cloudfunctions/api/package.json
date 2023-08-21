@@ -13,7 +13,7 @@
     "express": "4.17.1",
     "winston": "3.3.3",
     "cors": "2.8.5",
-    "jsonwebtoken": "8.5.1",
+    "jsonwebtoken": "9.0.0",
     "bcryptjs": "^2.4.3",
     "@google-cloud/logging-winston": "^4.0.0"
   }
