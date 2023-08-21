@@ -1,0 +1,25 @@
+version: 2
+updates:
+# Maintain dependencies for each example folder
+  - package-ecosystem: "pipenv" 
+    directory: "/"
+    schedule:
+        interval: "weekly"
+    labels:
+        - "dependencies"
+        - "automerge"
+        - "auto-approve"
+    open-pull-requests-limit: 5
+    groups:
+        cdktf:
+            patterns:
+                - "cdktf"
+                - "cdktf-cdktf-provider-*"
+        test:
+            patterns:
+                - "pytest" 
+                - "snapshottest"
+                
+        
+        
+    
