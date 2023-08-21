@@ -1,0 +1,15 @@
+{
+  "name": "cdktf-integration-serverless-python-gcp-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:cdktf/cdktf-integration-serverless-python-gcp-example.git",
+  "author": "Mark DeCrane <mark.decrane@hashicorp.com>",
+  "license": "MIT",
+  "scripts": {
+    "get": "cdktf get",
+    "synth": "cdktf synth"
+  },
+  "dependencies": {
+    "cdktf-cli": "^0.18.0"
+  }
+}

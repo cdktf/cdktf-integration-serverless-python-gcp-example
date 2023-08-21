@@ -24,6 +24,6 @@ jobs:
       - name: ensure correct user
         run: chown -R root /__w/cdktf-integration-serverless-python-gcp-example/
       - name: Install dependencies
-        run: pipenv install
+        run: yarn && pipenv install
       - name: Synth
-        run: cdktf get && cdktf synth
+        run: yarn synth

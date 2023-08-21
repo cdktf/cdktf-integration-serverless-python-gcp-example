@@ -134,7 +134,7 @@ snapshots['test_against_regression_frontend 1'] = '''{
     "local_file": {
       "frontend_env_FADFC9DB": {
         "content": "BUCKET_NAME=${google_storage_bucket.frontend_cdktfpython-static-site-test-regression-test_C640BFCE.name}\\nREACT_APP_API_ENDPOINT=N/A",
-        "filename": "/Users/mark.decrane/cdktf-example-projects/cdktf-integration-serverless-python-gcp-example/frontend/code/.env.production.local"
+        "filename": "/__w/cdktf-integration-serverless-python-gcp-example/cdktf-integration-serverless-python-gcp-example/frontend/code/.env.production.local"
       }
     }
   },
@@ -268,7 +268,7 @@ snapshots['test_against_regression_posts 1'] = '''{
       "posts_cloud-function_functions-archive-test-regression-test_5F080BE5": {
         "bucket": "${google_storage_bucket.posts_cloud-function_cloud-functions-test-regression-test_1CDFFE1A.name}",
         "name": "functions-archive-test-regression-test",
-        "source": "/Users/mark.decrane/cdktf-example-projects/cdktf-integration-serverless-python-gcp-example/./func_archive.zip"
+        "source": "/__w/cdktf-integration-serverless-python-gcp-example/cdktf-integration-serverless-python-gcp-example/./func_archive.zip"
       }
     },
     "google_vpc_access_connector": {
