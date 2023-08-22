@@ -1,6 +1,5 @@
 version: 2
 updates:
-# Maintain dependencies for each example folder
   - package-ecosystem: "pip" 
     directory: "/"
     schedule:
