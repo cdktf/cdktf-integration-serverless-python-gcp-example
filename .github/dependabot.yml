@@ -10,6 +10,15 @@ updates:
         - "automerge"
         - "auto-approve"
     open-pull-requests-limit: 5
+    ignore:
+        - dependency-name: "cdktf"
+          update-types: ["version-update:semver-major"]
+        - dependency-name: "cdktf-cdktf-provider-*"
+          update-types: ["version-update:semver-major"]
+        - dependency-name: "pytest"
+          update-types: ["version-update:semver-major"]
+        - dependency-name: "snapshottest"
+          update-types: ["version-update:semver-major"]
     groups:
         cdktf:
             patterns:
