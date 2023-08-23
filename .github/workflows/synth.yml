@@ -26,7 +26,7 @@ jobs:
       - name: Create Yarn Project
         run: yarn init --yes
       - name: Add CDKTF CLI
-        run: yarn add cdktf-cli
+        run: yarn global add cdktf-cli
       - name: Install Python Dependencies
         run: pipenv install
       - name: Synth
