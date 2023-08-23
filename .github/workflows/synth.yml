@@ -23,7 +23,11 @@ jobs:
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
       - name: ensure correct user
         run: chown -R root /__w/cdktf-integration-serverless-python-gcp-example/
-      - name: Install dependencies
-        run: yarn && pipenv install
+      - name: Create Yarn Project
+        run: yarn init --yes
+      - name: Add CDKTF CLI
+        run: yarn add cdktf-cli
+      - name: Install Python Dependencies
+        run: pipenv install
       - name: Synth
-        run: yarn synth
+        run: cdktf synth
