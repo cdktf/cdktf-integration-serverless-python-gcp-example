@@ -7,7 +7,9 @@
   "license": "MIT",
   "scripts": {
     "get": "cdktf get",
-    "synth": "cdktf synth"
+    "synth": "cdktf synth",
+    "test": "PROJECT_ID=myproject pipenv run pytest",
+    "test-update-snapshots": "PROJECT_ID=myproject pipenv run pytest --snapshot-update"
   },
   "dependencies": {
     "cdktf-cli": "^0.18.0"

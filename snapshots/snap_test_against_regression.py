@@ -142,7 +142,7 @@ snapshots['test_against_regression_frontend 1'] = '''{
     "required_providers": {
       "google-beta": {
         "source": "google-beta",
-        "version": "4.78.0"
+        "version": "4.62.0"
       },
       "local": {
         "source": "hashicorp/local",
@@ -285,7 +285,7 @@ snapshots['test_against_regression_posts 1'] = '''{
     "required_providers": {
       "google-beta": {
         "source": "google-beta",
-        "version": "4.78.0"
+        "version": "4.62.0"
       }
     }
   },
