@@ -12,7 +12,10 @@ def test_against_regression_frontend(snapshot):
         http_trigger_url= "N/A"
     )
     frontend_stack_synth = Testing.synth(frontend_stack)
-    snapshottest.assert_match_snapshot(frontend_stack_synth)
+    # remove version info from snapshot - tests will fail in CI when dependabot tries to upgrade any providers
+    frontend_stack_synth_dict = json.loads(frontend_stack_synth)
+    del frontend_stack_synth_dict["terraform"]
+    snapshottest.assert_match_snapshot(json.dumps(frontend_stack_synth_dict))
 
 def test_against_regression_posts(snapshot):
     posts_stack = PostsStack(Testing.app(), "test-posts",
@@ -21,4 +24,7 @@ def test_against_regression_posts(snapshot):
         project = "test"
     )
     posts_stack_synth = Testing.synth(posts_stack)
-    snapshottest.assert_match_snapshot(posts_stack_synth)
+    # remove version info from snapshot - tests will fail in CI when dependabot tries to upgrade any providers
+    posts_stack_synth_dict = json.loads(posts_stack_synth)
+    del posts_stack_synth_dict["terraform"]
+    snapshottest.assert_match_snapshot(json.dumps(posts_stack_synth_dict))
