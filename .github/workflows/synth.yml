@@ -29,7 +29,7 @@ jobs:
         run: yarn init --yes
       - name: Read CDKTF CLI Version
         id: cdktf-cli-version
-        run: echo $(cat Pipfile | grep 'cdktf =' | awk -F'"' '{gsub("~=","",$2); print $2}') >> $GITHUB_OUTPUT
+        run: echo "$(cat Pipfile | grep 'cdktf =' | awk -F'"' '{gsub("~=","",$2); print $2}')" >> $GITHUB_OUTPUT
       - name: Add CDKTF CLI
         run: yarn global add cdktf-cli@${{ steps.cdktf-cli-version.outputs}}
       - name: Synth
