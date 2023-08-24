@@ -21,6 +21,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+      - name: Find Python Version
+        id: python-version
+        run: echo "python_version=$(cat Pipfile | grep 'python_version =' | awk -F'"' '{gsub("=","",$2); print $2}')" >> "$GITHUB_OUTPUT"
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ steps.python-version.outputs.python_version}}
       - name: ensure correct user
         run: chown -R root /__w/cdktf-integration-serverless-python-gcp-example/
       - name: Install dependencies
