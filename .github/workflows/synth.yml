@@ -30,5 +30,7 @@ jobs:
         run: echo "cdktf_version=$(cat Pipfile | grep 'cdktf =' | awk -F'"' '{gsub("~=","",$2); print $2}')" >> "$GITHUB_OUTPUT"
       - name: Add CDKTF CLI
         run: yarn global add cdktf-cli@${{ steps.cdktf-version.outputs.cdktf_version}}
+      - name: Install Python Dependencies
+        run: sudo -H pipenv install --dev
       - name: Synth
-        run: sudo -H pipenv install --dev && cdktf synth
+        run: cdktf synth
