@@ -15,7 +15,7 @@ on:
 
 jobs:
   synth:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
