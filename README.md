@@ -192,7 +192,7 @@ class Storage(Resource):
 
     db_host: str
     db_name: str
-    db_user: dict[str, str]
+    db_user: Dict[str, str]
 
     def __init__(self, scope: Construct, id: str, environment: str, user: str, project: str, private_vpc_connection: GoogleServiceNetworkingConnection, vpc_id: str):
         super().__init__(scope,id)
