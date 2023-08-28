@@ -30,7 +30,7 @@ jobs:
           python-version: ${{ steps.python-version.outputs.python_version}}
       - name: ensure correct user
         run: chown -R root /__w/cdktf-integration-serverless-python-gcp-example/
-      - name: Install dependencies
-        run: pipenv install
+      - name: Install Python Dependencies
+        run: PIPENV_VENV_IN_PROJECT=1 bash pipenv_install.sh
       - name: Pytest
         run: PROJECT_ID=myproject pipenv run pytest
