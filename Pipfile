@@ -4,7 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [requires]
-python_version = "3"
+python_version = "3.7"
 
 [packages]
 cdktf = "~=0.15.0"
@@ -12,4 +12,3 @@ pytest = "*"
 cdktf-cdktf-provider-google-beta = "*"
 cdktf-cdktf-provider-local = "*"
 snapshottest = "*"
-importlib-resources = "*"
