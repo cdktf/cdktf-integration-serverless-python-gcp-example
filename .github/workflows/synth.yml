@@ -31,6 +31,6 @@ jobs:
       - name: Add CDKTF CLI
         run: yarn global add cdktf-cli@${{ steps.cdktf-version.outputs.cdktf_version}}
       - name: Install Python Dependencies
-        run: sudo -H pipenv install --dev
+        run: pipx install pipenv && pipenv install
       - name: Synth
         run: cdktf synth
