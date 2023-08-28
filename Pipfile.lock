@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "dfccf16f01350e20e8bc7d1ba8fe20df3d456f6965098bc4d7d5c74f663fd3e2"
+            "sha256": "ee798df44245399e4a7d81bf46d99995a32e48555623ec1e2a66765ef9f01d0a"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -34,27 +34,27 @@
         },
         "cdktf": {
             "hashes": [
-                "sha256:26799fc86c0d43d3178493dd155adc58dfa9d391db7b27d1209ba27496cba615",
-                "sha256:a6b0819a4c276e152997d5d8624488331706e483a7fc348f9ffcbe471912dc44"
+                "sha256:0047e4391b616c3e40e9f96406b5e8b6a6f0132e5933cc5ac2f82487513614dc",
+                "sha256:0b5410d83c3c7005ef7342dd282eab8ba5b4c867be04609ac420941bb61a0237"
             ],
             "index": "pypi",
-            "version": "==0.15.5"
+            "version": "==0.17.0"
         },
         "cdktf-cdktf-provider-google-beta": {
             "hashes": [
-                "sha256:aeb1fbece22b91aeddecac1cd87fdce5ec1d8dfdabd615c848e50075b8ae9f57",
-                "sha256:f778fce1cc2d0edb806a60574204e2c342ecc6b410e21610f408db3b56eedd15"
+                "sha256:0c506effedb1be65a0ff2636cdfec535ea0f884bb6ef4bcd6f255cb29008e934",
+                "sha256:d42624a4ca97b84d537c103a7d11b24d0bcdf0dc6964ad30929883108926bc73"
             ],
             "index": "pypi",
-            "version": "==6.0.0"
+            "version": "==8.0.11"
         },
         "cdktf-cdktf-provider-local": {
             "hashes": [
-                "sha256:64a746cc4656f761c896598e576ab0eb6e3a5bc189663051cc2222e50105dbef",
-                "sha256:ffe704c0a6a8e23fe4c7003b84c7fb38682a911a931926896066793a93af45f2"
+                "sha256:58c9792c38c08d0467bef9b2ebca426674f9f5c6a3c3ef956f6c464c4664f963",
+                "sha256:bf5c54000dfebe06231bc352b7ef15f9fdcd330c2bf740bb4cb9616a4b533759"
             ],
             "index": "pypi",
-            "version": "==5.0.1"
+            "version": "==7.0.0"
         },
         "constructs": {
             "hashes": [
@@ -92,7 +92,7 @@
                 "sha256:a59e0f962589dcc741d2bcf2a7b4c4a927a29d3f9a2804a192c734e2e3275018",
                 "sha256:b3888141c30b83a30bfbe03a877bbf8ae42f957b6ccca02bae448853debffaf8"
             ],
-            "index": "pypi",
+            "markers": "python_version ~= '3.7'",
             "version": "==1.88.0"
         },
         "packaging": {
