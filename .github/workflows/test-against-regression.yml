@@ -31,6 +31,8 @@ jobs:
       - name: ensure correct user
         run: chown -R root /__w/cdktf-integration-serverless-python-gcp-example/
       - name: Install Python Dependencies
-        run: PIPENV_VENV_IN_PROJECT=1 bash pipenv_install.sh
+        run: pipx install pipenv
+      - name: Install Python Dependencies
+        run: PIPENV_VENV_IN_PROJECT=1 pipenv install
       - name: Pytest
         run: PROJECT_ID=myproject pipenv run pytest
