@@ -1,4 +1,5 @@
 from constructs import Construct
+from typing import Dict
 from cdktf_cdktf_provider_google_beta.google_service_networking_connection import GoogleServiceNetworkingConnection
 from cdktf_cdktf_provider_google_beta.google_sql_database import GoogleSqlDatabase
 from cdktf_cdktf_provider_google_beta.google_sql_user import GoogleSqlUser
@@ -8,7 +9,7 @@ class Storage(Construct):
 
     db_host: str
     db_name: str
-    db_user: dict[str, str]
+    db_user: Dict[str, str]
 
     def __init__(self, scope: Construct, id: str, environment: str, user: str, project: str, private_vpc_connection: GoogleServiceNetworkingConnection, vpc_id: str, db_pass: str):
         super().__init__(scope,id)

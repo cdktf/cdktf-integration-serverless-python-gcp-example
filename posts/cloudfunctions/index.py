@@ -1,5 +1,6 @@
 import shutil
 import os
+from typing import Dict
 from constructs import Construct
 from cdktf_cdktf_provider_google_beta.google_storage_bucket import GoogleStorageBucket
 from cdktf_cdktf_provider_google_beta.google_storage_bucket_object import GoogleStorageBucketObject
@@ -11,7 +12,7 @@ class CloudFunction(Construct):
 
     https_trigger_url: str
    
-    def __init__(self, scope: Construct, id: str, environment: str, user: str, project: str, vpc_id: str, db_host: str, db_name: str, db_user: dict[str, str]):
+    def __init__(self, scope: Construct, id: str, environment: str, user: str, project: str, vpc_id: str, db_host: str, db_name: str, db_user: Dict[str, str]):
         super().__init__(scope, id)
 
         cloud_functions_storage = GoogleStorageBucket(self,
