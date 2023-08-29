@@ -30,6 +30,8 @@ jobs:
           python-version: ${{ steps.python-version.outputs.python_version}}
       - name: ensure correct user
         run: chown -R root /__w/cdktf-integration-serverless-python-gcp-example/
+      - name: Generate Pipfile.lock
+        run: pipenv lock
       - name: Install Python Dependencies
         run: pipenv requirements | sed -nE 's/^([[:alnum:]-]+==[0-9]+\.[0-9]+\.[0-9]+).*$/\1/p' | PIPENV_VENV_IN_PROJECT=1 bash -c 'dependencies=$(cat); echo "$dependencies" | while read -r requirement; do echo "INSTALLING $requirement"; pipenv run pip install "$requirement"; done'
       - name: Pytest
