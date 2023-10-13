@@ -4,9 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [requires]
-python_version = "3"
+python_version = "3.7"
 
 [packages]
-cdktf-cdktf-provider-google-beta = "~=5.0.0"
-cdktf-cdktf-provider-local = "~=5.0.0"
-cdktf = "~=0.15.0"
+pytest = "==7.4.0"
+snapshottest = "==0.6.0"
+cdktf = "==0.18.0"
+cdktf-cdktf-provider-local = "==8.0.0"
+cdktf-cdktf-provider-google-beta = "==9.0.0"
