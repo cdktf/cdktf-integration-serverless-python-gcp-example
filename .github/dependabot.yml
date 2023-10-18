@@ -27,7 +27,3 @@ updates:
             patterns:
                 - "pytest" 
                 - "snapshottest"
-                
-        
-        
-    
