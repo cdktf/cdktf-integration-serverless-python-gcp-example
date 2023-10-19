@@ -3,28 +3,25 @@ updates:
   - package-ecosystem: "pip" 
     directory: "/"
     schedule:
-        interval: "weekly"
+      interval: "weekly"
     labels:
-        - "dependencies"
-        - "automerge"
-        - "auto-approve"
+      - "dependencies"
+      - "automerge"
+      - "auto-approve"
     open-pull-requests-limit: 5
     ignore:
-        - dependency-name: "cdktf"
-          update-types: ["version-update:semver-major"]
-        - dependency-name: "cdktf-cdktf-provider-*"
-          update-types: ["version-update:semver-major"]
-        - dependency-name: "pytest"
-          update-types: ["version-update:semver-major"]
-        - dependency-name: "snapshottest"
-          update-types: ["version-update:semver-major"]
+      # For providers, ignore all patch updates for version updates only
+      - dependency-name: "cdktf-cdktf-provider-google-beta"
+        update-types: ["version-update:semver-patch"]
+      - dependency-name: "cdktf-cdktf-provider-local"
+        update-types: ["version-update:semver-patch"]
     groups:
-        cdktf:
-            patterns:
-                - "cdktf"
-                - "cdktf-cdktf-provider-*"
-        test:
-            patterns:
-                - "pytest" 
-                - "snapshottest"
+      cdktf:
+        patterns:
+          - "cdktf"
+          - "cdktf-cdktf-provider-*"
+      test:
+        patterns:
+          - "pytest" 
+          - "snapshottest"
 # We are purposely not (yet) using Dependabot to update dependencies for the frontend, because there are no frontend tests we can use to verify it didn't break
