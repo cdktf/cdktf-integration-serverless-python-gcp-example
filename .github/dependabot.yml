@@ -27,3 +27,4 @@ updates:
             patterns:
                 - "pytest" 
                 - "snapshottest"
+# We are purposely not (yet) using Dependabot to update dependencies for the frontend, because there are no frontend tests we can use to verify it didn't break
