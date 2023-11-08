@@ -20,11 +20,12 @@ updates:
       - "automerge"
       - "auto-approve"
     open-pull-requests-limit: 5
+    versioning-strategy: "increase-if-necessary"
+    allow:
+      - dependency-type: "all"
     ignore:
       # For providers, ignore all patch updates for version updates only
-      - dependency-name: "cdktf-cdktf-provider-google-beta"
-        update-types: ["version-update:semver-patch"]
-      - dependency-name: "cdktf-cdktf-provider-local"
+      - dependency-name: "cdktf-cdktf-provider-*"
         update-types: ["version-update:semver-patch"]
     groups:
       cdktf:
