@@ -20,12 +20,12 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Checkout
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Find Python Version
         id: python-version
         run: echo "python_version=$(cat Pipfile | grep 'python_version =' | awk -F'"' '{gsub("=","",$2); print $2}')" >> "$GITHUB_OUTPUT"
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 # v4.7.1
         with:
           python-version: ${{ steps.python-version.outputs.python_version}}
       - name: ensure correct user
